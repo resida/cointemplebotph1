@@ -1,0 +1,434 @@
+{% extends "templates/base.html" %}
+{% block title %}Trading Interface{% endblock %}
+{% block head %}
+<!--<META HTTP-EQUIV="refresh" CONTENT="600">-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+<!--<link rel="stylesheet" href="/css/small-bell-ring-01a.mp3">-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+<style>
+
+.data_label_class {
+    font-weight: bold;
+    font-size: 80%;
+}
+
+.cancel_working {
+    cursor:pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+</style>
+
+{% endblock %}
+{% block maincontent %}
+
+<div class="container">
+    <div id="settings-div-1" style="padding:0px;" class="row">
+        <div class="col-xs-2">
+            <span id="coin_show">Coin: {{coin}}</span>
+        </div>
+        <div class="col-xs-2">
+            <span id="required_spread_show">Required Spread (%): {{required_spread}}</span>
+        </div>
+        <div class="col-xs-2">
+            <span id="trade_size_show">Quantity (BTC): {{trade_size}}</span>
+        </div>
+        <div class="col-xs-2">
+            <span id="buy_on_exchange_show">Buy On: {{buy_on}}</span>
+        </div>
+        <div class="col-xs-2">
+            <span id="send_to_exchange_show">Send To: {{send_to}}</span>
+        </div>
+        <div class="col-xs-2">
+            <span id="email_notification_show">Email Notification: {{email_notification}}</span>
+        </div>
+    </div>
+    <div id="change-settings-div-1" class="row" style="padding-top:10px;">
+        <div class="col-xs-2">
+            <!--<input type="text" class="input-sm" name="coin" id="coin" value="{{coin}}" style="width:50px;">-->
+            <select name="coin" id="coin">
+              <option value="btc" {% if coin == "btc" %} selected {% endif %} >btc</option>
+              <option value="ltc"  {% if coin == "ltc" %} selected {% endif %} >ltc</option>
+                <option value="eth" {% if coin == "eth" %} selected {% endif %} >eth</option>
+              <option value="etc"  {% if coin == "etc" %} selected {% endif %} >etc</option>
+            </select>
+        </div>
+        <div class="col-xs-2">
+            <input type="number" step="0.1" class="input-sm" name="required_spread" id="required_spread" value="{{required_spread}}" style="width:70px;">
+        </div>
+        <div class="col-xs-2">
+            <input type="number" step="0.1" class="input-sm" name="trade_size" id="trade_size" value="{{trade_size}}" style="width:70px;">
+        </div>
+
+        <div class="col-xs-2" >
+            <select name="buy_on_exchange" id="buy_on_exchange">
+              <option value="gdax" {% if buy_on == "gdax" %} selected {% endif %} >gdax</option>
+              <option value="cex"  {% if buy_on == "cex" %} selected {% endif %} >cex</option>
+                <option value="kraken" {% if buy_on == "kraken" %} selected {% endif %} >kraken</option>
+              <option value="exmo"  {% if buy_on == "exmo" %} selected {% endif %} >exmo</option>
+            <option value="bittrex"  {% if buy_on == "bittrex" %} selected {% endif %} >bittrex</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2" >
+            <select name="send_to_exchange" id="send_to_exchange">
+              <option value="gdax" {% if send_to == "gdax" %} selected {% endif %} >gdax</option>
+              <option value="cex"  {% if send_to == "cex" %} selected {% endif %} >cex</option>
+                <option value="kraken" {% if send_to == "kraken" %} selected {% endif %} >kraken</option>
+              <option value="exmo"  {% if send_to == "exmo" %} selected {% endif %} >exmo</option>
+                <option value="bittrex"  {% if send_to == "bittrex" %} selected {% endif %} >bittrex</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2" >
+            <input type="text" class="input-sm" name="email_notification" id="email_notification" value="{{email_notification}}" style="width:120px;">
+        </div>
+
+    </div>
+
+    <div class="row" style="padding-top:20px;padding-left:20px;">
+        {{description_string}}
+    </div>
+
+    <div class="row" style="padding-top:20px;padding-left:20px;">
+        <div class="col-xs-2" >
+            <button class="btn btn-sm btn-primary" id="update_settings_btn" style="padding:4px;" data-toggle="modal" data-target="#checkModal">UPDATE</button>
+        </div>
+    </div>
+
+    <div style="padding:20px;" class="row">
+        <hr>
+        <div id="status_div" style="color:green;">
+
+        </div>
+    </div>
+
+    <div id="info-div-1" style="padding:20px;" class="row">
+        <div class="col-xs-9">
+            <div class="row">
+                <div class="col-xs-3">
+                    {%  for ex in exchange_list %}
+                        <div>
+                            <span class="data_label_class">{{ex}} BALANCES</span>
+                            <ul style="list-style: none;" id="{{ex}}_BALANCES">
+
+                            </ul>
+                        </div>
+                    {%  endfor  %}
+                    <div style="padding:30px;">
+                    </div>
+                    <div style="padding:30px;">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <table style="width:250px;">
+                        <tr>
+                            <td class="data_label_class"><br><br> </td>
+                        </tr>
+                        {%  for ex in exchange_list %}
+                          <tr>
+                            <td class="data_label_class" style="padding:8px;">{{ex}} </td>
+                            <td style="align-content: center" id="{{ex}}_PRICE"> <span class="data_label_class" id="{{ex}}_BID"></span><span style="padding:5px;"></span><span class="data_label_class"id="{{ex}}_ASK"></span></td>
+                          </tr>
+                        {%  endfor  %}
+                    </table>
+                </div>
+                <div class="col-xs-6">
+                    <table style="width:250px;">
+                        <tr>
+                            {%  for ex in exchange_list %}
+                                <td class="data_label_class" style="padding:8px;">{{ex}} </td>
+                            {%  endfor  %}
+                        </tr>
+                        {%  for ex in exchange_list %}
+                            <tr>
+                                {% for ex2 in exchange_list %}
+                                    <td class="data_label_class calc_class" id="{{ex}}-{{ex2}}" style="padding:8px;"> </td>
+                                {% endfor  %}
+                            </tr>
+                        {%  endfor  %}
+                    </table>
+                </div>
+            </div>
+            <div id="info-div-2" style="padding-top:20px;" class="row">
+                <div class="col-xs-4">
+
+                </div>
+                <div class="col-xs-8">
+                    <div>
+                        <span class="data_label_class">LOG</span>
+                        <ul style="list-style: none;" id="LOG">
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xs-3">
+            <div id="action-div">
+                <div >
+                    Updated: <span id="updated"></span>
+                </div>
+                <br>
+
+                <div >
+                    <button class="btn btn-block btn-primary" id="cancel_orders_btn" style="padding:20px;" >CANCEL ORDER</button>
+                </div>
+                <br>
+                <br>
+                <div >
+                    <button class="btn btn-block btn-primary" id="set_orders_btn" style="padding:20px;" >SET ORDER</button>
+                </div>
+                <br>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal " id="checkModal" aria-hidden=true role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form accept-charset='UTF-8' action="/update_settings/" method="post">
+                <div class="modal-header">
+                    <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                    <h4>Please confirm</h4>
+                    <small> coin: <span id="coin_modal">{{coin}}</span></small>
+                    <small>required spread: <span id="required_spread_modal">{{required_spread}}</span>  trade size: <span id="trade_size_modal">{{trade_size}}</span></small>
+                     <small> buy on: <span id="buy_on_modal">{{buy_on}}</span></small>
+                    <small> send to: <span id="send_to_modal">{{send_to}}</span></small>
+                    <small> email notification: <span id="email_notification_modal">{{email_notification}}</span></small>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="coin" id="coin_input" value="{{coin}}"/>
+                    <input type="hidden" name="trade_size" id="trade_size_input" value="{{trade_size}}"/>
+                    <input type="hidden" name="required_spread" id="required_spread_input" value="{{required_spread}}"/>
+                    <input type="hidden" name="buy_on" id="buy_on_input" value="{{buy_on}}"/>
+                    <input type="hidden" name="send_to" id="send_to_input" value="{{send_to}}"/>
+                    <input type="hidden" name="email_notification" id="email_notification_input" value="{{email_notification}}"/>
+                    <a href="#"  data-dismiss="modal"  aria-hidden="true" class="btn btn-sm btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock maincontent %}
+{% block addscripts %}
+
+<script type="text/javascript">
+
+    var holder_dict = {};
+
+    {% for ex in exchange_list %}
+        holder_dict["{{ex}}Ask"] = 0;
+        holder_dict["{{ex}}Bid"] = 0;
+    {%  endfor %}
+
+
+    var cexPositionsObj;
+    var gdaxPositionsObj;
+    var statusRef = firebase.database().ref("status/gdax_cex");
+    statusRef.on("value", function(snapshot) {
+        var VAL = snapshot.val();
+        if (VAL == null) {
+            VAL = "no active orders";
+        } else if (VAL.length == 0) {
+            VAL = "no active orders";
+        }
+        $("#status_div").text(VAL);
+        doUpdated();
+    });
+
+    var LOG_REF = firebase.database().ref("log/gdax_cex").limitToLast(200);
+    LOG_REF.on('value', function(snapshot) {
+        var append_list = [];
+        var itemToAdd = snapshot.val();
+        for (item in itemToAdd) {
+            append_list.unshift(itemToAdd[item]);
+        }
+        append_list.sort(function(first, second) {
+         return second.time_unix - first.time_unix;
+        });
+        $("#LOG").html("");
+        for (var i = 0; i < append_list.length; i++){
+            $("#LOG").append('<li>' + append_list[i].time_readable + '<span style="padding:5px;">' + append_list[i].text + '</span></li>');
+        }
+    });
+
+    var gdaxPositionRef = firebase.database().ref("gdax/positions");
+    gdaxPositionRef.on("value", function(snapshot) {
+        //bitmexVal = snapshot.val();
+        gdaxPositionsObj  = snapshot.val();
+        var newVal = build_string_from_dict(gdaxPositionsObj)
+        $("#GDAX_BALANCES").html(newVal);
+        doUpdated();
+    });
+
+    {% for ex in exchange_list %}
+        var {{ex}}PositionRef = firebase.database().ref("{{ex}}/positions/total");
+        {{ex}}PositionRef.on("value", function(snapshot) {
+            {{ex}}PositionsObj  = snapshot.val();
+            var newVal = build_string_from_dict({{ex}}PositionsObj);
+            $("#{{ex}}_BALANCES").html(newVal);
+            doUpdated();
+        });
+    {%  endfor %}
+
+
+    {% for ex in exchange_list %}
+          var {{ex}}AskRef = firebase.database().ref("{{ex}}/prices/btc/ask");
+        {{ex}}AskRef.on("value", function(snapshot) {
+            holder_dict["{{ex}}Ask"] = parseFloat(snapshot.val());
+            holder_dict["{{ex}}Ask"] = parseFloat(Math.round(holder_dict["{{ex}}Ask"] * 10) / 10);
+
+            $("#{{ex}}_ASK").text(holder_dict["{{ex}}Ask"].toFixed(1));
+
+            doUpdated();
+        });
+
+
+        var {{ex}}BidRef = firebase.database().ref("{{ex}}/prices/btc/bid");
+        {{ex}}BidRef.on("value", function(snapshot) {
+            holder_dict["{{ex}}Bid"] = parseFloat(snapshot.val());
+            holder_dict["{{ex}}Bid"] = parseFloat(Math.round(holder_dict["{{ex}}Bid"] * 10) / 10);
+            $("#{{ex}}_BID").text(holder_dict["{{ex}}Bid"].toFixed(1));
+            doUpdated();
+        });
+    {%  endfor  %}
+
+
+
+
+
+</script>
+<script type="text/javascript">
+
+    function apply_clicking(){
+        $(".cancel_working").click(function(){
+            console.log("once");
+            var this_id = $(this).attr('id');
+            cancel_working_order_function(this_id);
+        });
+    }
+
+    function build_string_from_dict(update_dict){
+        var buildString = "";
+        for(var key in update_dict) {
+            buildString = buildString + "<li>" + key + " " + update_dict[key] + "</li>";
+        }
+        return buildString;
+    }
+
+    function build_orders_from_dict(update_dict, price_multiplier){
+        var buildString = "";
+        for(var key in update_dict) {
+            var subDict = update_dict[key];
+            var price_var = subDict["price"]*price_multiplier;
+            price_var = price_var.toFixed(2);
+            var spread_var = subDict["required_spread"];
+            if (subDict["external_id"]) {
+                 buildString = buildString + "<li><span class='cancel_working' id='" + subDict["external_id"] + "'>X </span> " + subDict["side"] + " " + subDict["orderQty"] + " " + spread_var + " " + price_var + "</li>";
+            } else {
+                 buildString = buildString + "<li><span class='cancel_working' id='" + subDict["external_id"] + "'>NW </span> " + subDict["side"] + " " + subDict["orderQty"] + " " + price_var + " " + + "</li>";
+            }
+        }
+        return buildString;
+    }
+
+    doUpdated();
+    $("#set_orders_btn").click(function(){ trade_function();});
+    $("#cancel_orders_btn").click(function(){ cancel_orders_function();});
+
+
+    $( "#coin" ).change(function() {
+        $("#coin_modal").text($("#coin").val());
+        $("#coin_input").val($("#coin").val());
+    });
+
+    $( "#required_spread" ).change(function() {
+        $("#required_spread_modal").text($("#required_spread").val());
+        $("#required_spread_input").val($("#required_spread").val());
+    });
+
+    $( "#trade_size" ).change(function() {
+        $("#trade_size_modal").text($("#trade_size").val());
+        $("#trade_size_input").val($("#trade_size").val());
+    });
+
+    $( "#send_to_exchange" ).change(function() {
+        $("#send_to_modal").text($("#send_to_exchange").val());
+        $("#send_to_input").val($("#send_to_exchange").val());
+    });
+
+    $( "#buy_on_exchange" ).change(function() {
+        $("#buy_on_modal").text($("#buy_on_exchange").val());
+        $("#buy_on_input").val($("#buy_on_exchange").val());
+    });
+
+    $( "#email_notification" ).change(function() {
+        $("#email_notification_modal").text($("#email_notification").val());
+        $("#email_notification_input").val($("#email_notification").val());
+    });
+
+    function trade_function(){
+        $.get("/work_exchange", function( data ) {
+          console.log( "Load was performed." );
+        });
+    }
+
+    function cancel_orders_function(){
+        $.get("/cancel_order", function( data ) {
+          console.log( "Load was performed." );
+        });
+    }
+
+    function doUpdated() {
+        var d = new Date();
+        var h = d.getHours();
+        if (String(h).length == 1) {
+            h = "0"+h;
+        }
+        var m = d.getMinutes();
+        if (String(m).length == 1) {
+            m = "0"+m;
+        }
+        var s = d.getSeconds();
+        if (String(s).length == 1) {
+            s = "0"+s;
+        }
+        $("#updated").html(String(h) +":" + String(m) + ":" + String(s));
+        $('.calc_class').each(function(){
+            var id_string = this.id;
+            var first_ex = id_string.split('-')[0];
+            var second_ex =id_string.split('-')[1];
+            //var first_ex_ask = $("#" + first_ex + "_ASK").val();
+            //var second_ex_ask = $("#" + second_ex + "_ASK").val();
+            var first_ex_ask = holder_dict[first_ex + "Ask"];
+            var second_ex_ask = holder_dict[second_ex + "Ask"];
+            console.log(first_ex_ask);
+            console.log(second_ex_ask);
+            var spread = (((first_ex_ask - second_ex_ask)/(first_ex_ask))*100.0).toFixed(2);
+            console.log(spread);
+            $(this).html(spread);
+         });
+    }
+
+    function change_ui_after_trade(data){
+
+    }
+</script>
+{% endblock addscripts %}

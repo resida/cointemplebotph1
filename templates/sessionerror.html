@@ -1,0 +1,27 @@
+{% extends "templates/base.html" %}
+
+{% block title %}Message{% endblock %}
+
+{% block maincontent %}
+    <div>
+        <div class="container" style="padding-top:50px">
+            <div class="panel panel-borderless panel-default col-md-8 col-md-offset-2 panelbottomroom">
+               <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <h2>Session Ended</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="alert alert-warning" style="margin-top:30px;text-align:center" role="alert">
+                                <p>Your session has ended please retry.</p>
+                            </div>
+                        </div>
+                    </div>
+
+               </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

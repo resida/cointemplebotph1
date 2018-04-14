@@ -1,0 +1,60 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{auth_signup_trans.en0}}{% endblock %}
+
+{% block maincontent %}
+<div>
+    <div class='panel panel-borderless panel-default col-sm-6 col-sm-offset-3' style="margin-bottom:40px">
+        <div class='panel-body  '>
+            <div class="row ">
+                <div class="col-md-10 col-md-offset-1">
+                    <br>
+                    <h2>{{auth_signup_trans.en0}}</h2>
+                </div>
+            </div>
+            <div class="row">
+                    {% if error %}
+                        <div class="text-center"><font color="red">{{error}}</font></div>
+                    {% endif %}
+                <div class="col-md-10 col-md-offset-1 ">
+                        <form accept-charset='UTF-8' action="/signup" method="post" class="signupForm" autocomplete="off">
+                    {% if src %}
+                        <input type="hidden" name="src" value="{{src}}">
+                    {% endif %}
+                    <input type="hidden" name="csrf" value="{{csrf}}">
+
+                        <div class="form-group">
+                            <label for='signupemail'> {{auth_signup_trans.en3}}<br></label>
+                            <input type="email" id="signupemail" class="form-control" placeholder="you@example.com" name="email">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                 <label for='signuppassword'> {{auth_signup_trans.en8}}</label>
+                                <input type="password" id="signuppassword" class="form-control" placeholder="Password" name="password">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for='signuprepeatpassword'> {{auth_signup_trans.en9}}</label>
+                                <input type="password" id="signuprepeatpassword" class="form-control" placeholder="Repeat Password" name="repeatpassword">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-6 col-xs-offset-3" >
+                                <button type="submit" class="btn btn-block btn-primary" id="submitsignup">{{auth_signup_trans.en14}}</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block addscripts %}
+
+
+{% endblock addscripts %}

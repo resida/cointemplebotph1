@@ -1,0 +1,59 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{auth_forgot_trans.en0}}{% endblock %}
+
+{% block maincontent %}
+<div>
+    <div class='panel panel-borderless panel-default col-md-6 col-md-offset-3'>
+        <div class='panel-body'>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h4>{{auth_forgot_trans.en0}}</h4>
+                    {% if ifFound %}
+                        {{auth_forgot_trans.en3}}
+                    {% else %}
+                        {{auth_forgot_trans.en1}}
+                    {% endif %}
+                </div>
+                <br>
+            </div>
+
+            {% if brute_force_issue %}
+                <div class='alert alert-danger errormessages alert-dismissable'>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{brute_force_issue}}
+                </div>
+            {% endif %}
+            <div class="row">
+                {% if error %}
+                  <div class='alert alert-danger errormessages alert-dismissable'>
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      {{error}}
+                  </div>
+                {% endif %}
+                {% if not ifFound %}
+                <div class="col-md-10 col-md-offset-1 ">
+
+                    <form accept-charset='UTF-8' action="/password/forgot" method="post" class='forgotForm' autocomplete="off">
+                        <input type="hidden" name="csrf" value="{{csrf}}">
+                        <div class="form-group">
+                            <br>
+                            <input type="email" id='forgotemail' class="form-control" placeholder="{{auth_forgot_trans.en7}}" name="email">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-6 col-xs-offset-3">
+                                <button type="submit" class="btn btn-block btn-primary" id='submitforgot'>{{auth_forgot_trans.en5}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block addscripts %}
+{% endblock addscripts %}

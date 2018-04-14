@@ -1,0 +1,139 @@
+a:link    {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            black;
+  }
+a:visited {
+  /* Applies to all visited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            black;
+  }
+a:hover   {
+  /* Applies to links under the pointer */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            black;
+  }
+a:active  {
+  /* Applies to activated links */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            black;
+  }
+
+
+.acctDrop-content {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index:9999999;
+}
+
+.acctDrop-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.customDropCl {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+
+.logouthoverclass a {
+    color: blue;
+}
+
+.panel-borderless {
+  border: 0;
+  box-shadow: none;
+}
+
+.chatMessagesList {
+    height: 350px;
+    overflow-y:scroll;
+    width: 340px;
+    background-color:rgb(252, 252, 252);
+}
+
+.chatInput {
+    border:none;
+    padding:20px;
+    outline: none;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    background-color:#F1F1F1;
+}
+
+
+.chatInput:focus {
+    border:none;
+    padding:20px;
+    outline: none;
+    /*resize: none;*/
+    width: 100%;
+    height: 100%;
+    background-color:#FFFFFF;
+}
+
+/* this is for choosing between all and unread */
+.unread-all-option-item:hover {
+    background-color: #f1f1f1;
+    color: #27AAE1;
+    cursor: pointer;}
+
+/*.read-unread-class {color:black;text-decoration:none;display:block;cursor: pointer;}*/
+.customMessageClass {cursor: pointer;}
+.customMessageClass:hover {color: #27AAE1;}
+.talk-bubble-receiving {
+    border-radius: 3px;
+    margin: 25px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    display:block;
+    clear:both;
+    max-width: 340px;
+    height: auto;
+    background-color: lightblue;
+}
+
+.talk-bubble-sending {
+    border-radius: 3px;
+    margin: 25px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    display:block;
+    clear:both;
+    max-width: 340px;
+    height: auto;
+    background-color: lightgrey;
+}
+
+.talktext{
+  padding: 0.25em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  text-align: left;
+}

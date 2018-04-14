@@ -1,0 +1,53 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{account_trans.en0}}{% endblock %}
+
+{% block maincontent %}
+
+<div class="row" style="padding:50px;">
+	<div class='panel panel-default panel-borderless col-sm-4 col-sm-offset-4' style="margin:30px;">
+		<div class='panel-body'>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<h2>{{account_trans.en0}}</h2>
+				</div>
+			</div>
+			<div class="row">
+                <div class="text-center"><font color="red">{{message}}</font></div>
+
+    			<div class="col-md-10 col-md-offset-1">
+       				<form accept-charset='UTF-8' action="/account" method="post" class="changepasswordForm">
+                        <input type="hidden" name="csrf" value="{{csrf}}">
+                        <div class="form-group">
+							<label for='currentpassword'>{{account_trans.en2}}</label>
+                			<input type="password" class="form-control" placeholder="Current Password" name="currentpassword" id="currentpassword">
+            			</div>
+            			<div class="form-group">
+							<label for='newpassword'>{{account_trans.en3}}</label>
+                			<input type="password" class="form-control" placeholder="New Password" name="newpassword" id="newpassword">
+            			</div>
+            			<div class="form-group">
+							<label for='repeatnewpassword'>{{account_trans.en4}}</label>
+                			<input type="password" class="form-control" placeholder="Repeat password" name="repeatnewpassword" id="repeatnewpassword">
+            			</div>
+            			<input type="hidden" name="token" value="{{ token }}" />
+						<div class="row">
+							<div class="col-xs-6 col-xs-offset-3">
+            					<button type="submit" class="btn btn-block btn-primary" >{{account_trans.en5}}</button>
+							</div>
+						</div>
+        			</form>
+    			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock maincontent %}
+{% block addscripts %}
+<script>
+
+</script>
+{% endblock addscripts %}

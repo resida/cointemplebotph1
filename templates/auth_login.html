@@ -1,0 +1,76 @@
+{% extends "templates/base.html" %}
+
+{% block title %}{{auth_login_trans.en0}}{% endblock %}
+
+{% block maincontent %}
+<div>
+    <div class='panel panel-borderless panel-default col-sm-6 col-sm-offset-3' style="margin-bottom:40px">
+        <div class='panel-body'>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2>{{auth_login_trans.en0}} </h2>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    {% if failed %}
+                        <div class="text-center"><font color="red">{{auth_login_trans.en3}}</font></div>
+                    {% endif %}
+
+
+                    {% if brute_force_issue %}
+                        <div class='alert alert-danger errormessages alert-dismissable'>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{brute_force_issue}}
+                        </div>
+                    {% endif %}
+
+
+                    {% if locked %}
+                        <div class='alert alert-danger errormessages alert-dismissable'>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <strong>{{auth_login_trans.en10}}</strong><br>
+                            <p>{{auth_login_trans.en11}}</p>
+                            <p>{{auth_login_trans.en12}} <a href="#contact" data-toggle='modal'> {{auth_login_trans.en9}}</a>{{auth_login_trans.en13}}</p>
+                        </div>
+                    {% endif %}
+                    {% if verified %}
+                        <div class="text-center"><font color="red">{{auth_login_trans.en3}}</font></div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row" >
+                {% if error %}
+                    <div class='alert alert-warning errormessages alert-dismissable' ><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{error}}</div>
+                {% endif %}
+                <div class="col-md-10 col-md-offset-1 ">
+                    <form accept-charset='UTF-8' action="/login" method="post" class="submitlogin" autocomplete="off">
+                        <input type="hidden" name="csrf" value="{{csrf}}">
+                        <div class="form-group">
+                            <label for='loginemail'> {{auth_login_trans.en18}}</label>
+                            <input type="email" id="loginemail" value="{{email}}" class="form-control" placeholder="{{auth_login_trans.en22}}" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for='loginpassword'> {{auth_login_trans.en19}}</label>
+                            <input type="password" id='loginpassword' class="form-control" placeholder="Password" name="password">
+                            <a href="/password/forgot" class="small text-mute" style="color:#0000BB;padding-left:10px;padding-top:5px;">Forgot Your Password?</a>
+                        </div>
+
+
+                        <br>
+                        <div class="row">
+
+                            <div class="col-xs-6 col-xs-offset-3" >
+                                <button type="submit" class="btn btn-block btn-primary" id="submitloginbtn" >{{auth_login_trans.en20}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+{% endblock maincontent %}
+{% block addscripts %}
+{% endblock addscripts %}

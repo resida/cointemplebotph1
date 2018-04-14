@@ -1,0 +1,56 @@
+application: coin-temple
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+instance_class: F4
+automatic_scaling:
+    min_idle_instances: 1
+    max_idle_instances: automatic
+
+handlers:
+- url: /favicon.ico
+  static_files: img/favicon.ico
+  upload: img/favicon.ico
+  expiration: "0d 4h"
+  http_headers:
+    Cache-Control: max-age=14400
+- url: /img
+  static_dir: img
+  expiration: "0d 4h"
+  http_headers:
+    Cache-Control: max-age=14400
+- url: /css
+  static_dir: css
+  expiration: "0d 4h"
+  http_headers:
+    Cache-Control: max-age=14400
+- url: /js
+  static_dir: js
+  expiration: "0d 4h"
+  http_headers:
+    Cache-Control: max-age=14400
+- url: /fonts
+  static_dir: fonts
+  expiration: "0d 4h"
+  http_headers:
+    Cache-Control: max-age=14400
+
+- url: .*
+  script: main.app
+  secure: always
+
+libraries:
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "latest"
+- name: lxml
+  version: "2.3"   # or "latest"
+- name: ssl
+  version: latest
+
+builtins:
+- remote_api: on
+

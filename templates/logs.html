@@ -1,0 +1,128 @@
+{% extends "templates/base.html" %}
+{% block title %}Logs{% endblock %}
+
+{% block head %}
+
+
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+.container-fluid-5 {
+    margin: 10px;
+    padding: 10px;
+}
+.left,
+.right {
+  height: 50vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  text-align: center;
+}
+
+.left {
+  background-color: #eee;
+}
+.right {
+  background-color: #fcf5dc;
+}
+
+
+.highlight-class {
+    background-color: #9999FF;
+    padding:3px;
+    border-radius: 4px;
+    width:100%;
+    cursor:pointer;
+}
+</style>
+
+
+{% endblock %}
+
+/* Style the tab */
+
+
+
+{% block maincontent %}
+
+<div class="container-fluid-5">
+    <div class="row" >
+            Order Archive
+    </div>
+    <div class="row" style="padding:15px;">
+        <div class="col-xs-3">
+            {% for order in order_list[:5] %}
+                {{macros.ORDER_LIST_MACRO(order, shown_order_id)}}
+            {% endfor %}
+        </div>
+        <div class="col-xs-3">
+            {% for order in order_list[5:10] %}
+                {{macros.ORDER_LIST_MACRO(order, shown_order_id)}}
+            {% endfor %}
+        </div>
+        <div class="col-xs-3">
+            {% for order in order_list[10:15] %}
+                {{macros.ORDER_LIST_MACRO(order, shown_order_id)}}
+            {% endfor %}
+        </div>
+        <div class="col-xs-3">
+            {% for order in order_list[15:20] %}
+                {{macros.ORDER_LIST_MACRO(order, shown_order_id)}}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6 text-center" style="padding:8px; ">
+            Order Logs
+        </div>
+        <div class="col-xs-1"></div>
+        <div class="col-xs-5 text-center" style="padding:8px; ">
+            Exchange Api Calls
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 left" >
+         <div id="WOs">
+            {% for log in order_log_list %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small> {{log["time_readable"]}} {{log["text"]}}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+        <div class="col-xs-1" ></div>
+      <div class="col-xs-5 right"  >
+        <div id="Exchange">
+            {% for log in exchange_log_list %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <small> {{'%0.2f'| format(log["time_elapsed"]|float)}} {{'%0.2f'| format(log["api_rate"]|float)}} {%if log["exchange"] == "Bitfinex" %} <span style="background-color:blue;">Bitfinex</span> {% endif %} {{log["visible_time"]}} - {{log["request_url"]}} - {{log["param"][:20]}} - {{log["result"][:50]}}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block addscripts %}
+<script>
+    $(".order_click").click(function(){
+            var this_id = $(this).attr('id');
+            get_order_function(this_id);
+        });
+
+    function get_order_function(id_string){
+        window.location.href = "/logs/general?shown_order_id=" + id_string;
+    }
+
+
+</script>
+{% endblock addscripts %}

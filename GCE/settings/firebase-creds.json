@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "coin-temple",
+  "private_key_id": "af88dd43feebf35cdf55323cb1f667f58f3c6978",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCxjtlb5uo6H3tu\nsIOGqICLHY0Rm91MOmjYO3ncs574axxwCUdGWPqm+qhYGb2R/u+2HmV6ttPf1kIV\nwJcfBK/Alk7gkTUra53VFEJT+5mEUhmY/bN0eapKXfP5Uq09oT2BqvJh8rO9UhwP\nMUV+lIqcwEQiwcCnRKncglF6l6rgHHQCUXWFYcnx7pQ4icW3zisz4BWJ8beKQKpO\naCKivOPkKXw/3DuOBF6EC+RyIGw+8Vb/9cqUj4GV7uAV2PY8b1ThEjgWEAkNCbtm\nTL19SRSXFNZUlIDYh9hSqFEUHDg8xmdvVeCBEjcqvmhP63zD+Tak6FBr78hXX4ea\nnKaMKH6hAgMBAAECggEAIQNjqBoA4mIwn8XLiqnBTrxlmojNpmr0zAGQ+KdgDyXR\nMYaUHUEVh57y1oCgtei99rFjomOkdMmgW22F26NSLz9zNn9hMKvPeosMAxP0eP0P\n29mN+IHXlwCtiGWmJt+YMUgQzYPkBfcilvONDYo+VINOF91I/gC/CWwkjKPvBkCM\nb/fUDVFj8PJo/2h/tG4pXlfATIqRMus0dtep8BCAdNYCPYr3zygga+Mq0RRmhWfs\nAJaw7gBxk+GNmEDDt3Lj1btVjwmJA+D4Yx1v4b8Kc1AgqweXRukTzb+jtUu3A8CO\n8KnAsOsEwqW7kSkwWBNltS9mEFK94FhoWVvL7CDhXQKBgQDqgqZuIbknppEZwpag\ngiNWF7vTOZoCCCiZG08OJIE/GjReUfvB7aJC02qL2jW/3PuD8jAeCByGoRiqzTUH\nCgEH0GfP5O89brVI/srWCsjAh1DR9jvxM7W4MeiahDIURmh79gdnv3bIf5b1J1sd\nwW0IR1S1vBb8Xv2KyW7hIbsmJQKBgQDB1CklQCI6iMnBM66kotExoi00talO5oY6\n+ZqoYD5v/c2eTbyQNWQWLL/mPdCkHqNZqd1yAMNOezvfCQyPUrrfdrv+9eLP/Xrf\nPVyfqTB5aH2G6PKKSVhry6cw953fCwMOnK0oOExjLaw2NVOpBj13BKiygv8pBx6v\ntrWq0eU3zQKBgGTlo3+86LHjm4huzWnvtA5llb1Sii2XnwgI1OGr2SPyPVfbhCsy\n994yoiPb1cZf6KMjf4pcSRGvnDJYqhkGN91J0HCE+l3/FOZ8IX8oEqmrTp2XiMDF\nU8kVSBO7DuTkSi4Tc6oymYO4SZXewfgycZvfPNYYP/eDUyj0c81POvs1AoGAC/mg\npSWGN9mVpXMc+hz5Ebj0VApZMH+7kU80h+ySTvb+SiaBXON/kIMpQ/9TsaAW9YYy\nIUX8yw+ADnKPrRcuZnn+eW0Vm0YM3lf7Lf4U+ZtEDh68RWDsrpRBexwBS/NxN+jk\nJdT8mzAKMLswtQOmroDCL206eH1xHugJ50jagY0CgYBTrqQyej4RLxv8d1UBr/Lm\nn1vWTurmSqcHEK+SqGeU7f74UFCPAH+BVAqJt/Dn+SeE6Ae3Dk5orRrsSKeJOqPL\nNxW6YzuR6yT9OmeA5IdvhZ7oAz7eu/Rw5Dlw7E5xC0F+415QH+oZByagcuYnyz6o\n44RKYd9MdCrxpIpCq4pZgQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-nvnc7@coin-temple.iam.gserviceaccount.com",
+  "client_id": "104111515921608897848",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-nvnc7%40coin-temple.iam.gserviceaccount.com"
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Coin Temple | {% block title %}{% endblock title %}</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/custom.css">
+        {% block head %}
+        {% endblock %}
+        {% if QAorProd == "QA" %}
+        {% else %}
+        {% endif %}
+
+
+    </head>
+    <body>
+    {% import 'templates/macros.html' as macros %}
+        <noscript>
+            You have javascript disabled
+        </noscript>
+        <nav class="navbar navbar-default" style="border-bottom: 1px solid #dadfe3; background-color: white; ">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand"  href="/">
+                    CoinTemple
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+
+              <ul class="nav navbar-nav navbar-right">
+                  {% block start_stop %}
+                  {% endblock %}
+
+
+                  {% if loggedIn %}
+                    <li><a href="/logs/general"> Logs</a></li>
+                    {{macros.accountDropdown(loggedInEmail, accountBalance)}}
+                  {% else %}
+                    <li><a href="/signup"> Signup</a></li>
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                  {% endif %}
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        {% block maincontent %}
+        {% endblock maincontent %}
+        <div class="footer">
+        </div>
+        <script src="/js/jquery-3.1.1.min.js?v={{ curr_version_id }}"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+        <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+        <script src="/js/bootstrap.min.js?v={{ curr_version_id }}"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+            {{macros.firebase_macro()}}
+
+
+
+
+        <script type="text/javascript">
+
+            {% if loggedIn %}
+                function accountDropFunction() {
+                    document.getElementById("accountDropdown").classList.toggle("show");
+                }
+
+                window.onclick = function(event) {
+
+                  if (!event.target.matches('.acctDropbtn')) {
+                    closeAcctDropdown();
+                  }
+                }
+
+                function closeAcctDropdown(){
+                    var dropdown = document.getElementsByClassName("acctDrop-content")[0];
+                    if (!dropdown)return;
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            {% endif %}
+
+
+        </script>
+        {% block addscripts %}
+        {% endblock addscripts %}
+
+    </body>
+</html>

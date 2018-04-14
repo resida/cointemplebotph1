@@ -1,0 +1,142 @@
+{% macro docMacro(doc, big) %}
+<p {% if big %} class="itemExpandedClass" {% else %} class="itemClass" {% endif %} id="{{doc.get_id}}{% if big %}big{% else %}small{% endif %}"  {% if big %}style="display:none;"{% endif %}>
+    <img src="{{doc.faviconString}}" height='16px' width='16px'/> <!--<a href="{{doc.source}}" >-->  {{doc.ticker}} {{doc.title|truncate(50)}} <!--</a>-->  <span class="text-small text-muted" style="font-size:85%;">{{doc.prettyDate}} </span> <span style="text-small">{% if big %}{{doc.textContent|truncate(905)}}{% else %}{{doc.textContent|truncate(205)}}{% endif %}</span>
+</p>
+{% endmacro %}
+
+{% macro ORDER_LIST_MACRO(order, shown_order_id) %}
+<div class="row text-center" style="padding:5px;">
+   {% if shown_order_id == order['wo_id']%}
+        <span id="{{order['wo_id']}}" class="order_click highlight-class" > {{order["time_readable"]}} {{order["quantity"]}} {{order["required_spread"]}} {{order['wo_id'][:6]}} </span>
+    {% else %}
+        <span id="{{order['wo_id']}}" class="order_click" style="background-color: #eee;padding:3px;border-radius: 4px;width:100%;cursor:pointer;"> {{order["time_readable"]}} {{order["quantity"]}} {{order["required_spread"]}} {{order['wo_id'][:6]}} </span>
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro firebase_macro() %}
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCoIEtooABaFA2KErbPBCrb5a_e2PYs7rQ",
+    authDomain: "coin-temple.firebaseapp.com",
+    databaseURL: "https://coin-temple.firebaseio.com",
+    projectId: "coin-temple",
+    storageBucket: "coin-temple.appspot.com",
+    messagingSenderId: "674835311229"
+  };
+  firebase.initializeApp(config);
+</script>
+{% endmacro %}
+
+
+
+
+
+{% macro accountDropdown(loggedInEmail, accountBalance) %}
+    <li style="margin-right: 5px;">
+      <a onclick="accountDropFunction()" class="btn accountDropbtn" style="padding-top:12px;margin-right:7px;"><div  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <span style="text-transform:uppercase;font-size:85%"><strong style="padding-right:9px;">{{ loggedInEmail }}</strong> </span><i class="fa fa-caret-down"></i>
+      </div></a>
+      <div id="accountDropdown" class="acctDrop-content">
+          <ul class="customDropCl">
+              <li><a class="btn" href="/account">Account</a></li>
+              <li><a class="btn" href="/logout">Logout</a></li>
+
+          </ul>
+      </div>
+    </li>
+{% endmacro %}
+
+{% macro testChat() %}
+    <div class="hidden-sm hidden-xs"style="position: fixed;bottom: 25px;right: 45px;z-index: 899999;" id="draggableDiv">
+        <svg width="50" height="60" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,21 L0,29 A 20 20 0 0 0 21 50 L29,50  A 8 8 0 0 1 35 52 L50,60 L50,21 A 20 20 0 0 0 29 0 L21,0  A 20 20 0 0 0 0 21" fill="#006600" stroke="#006600" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <div class="hidden-sm hidden-xs"style="overflow:hidden;position: fixed;bottom: 25px;right: 45px;z-index: 899999;display:none;box-shadow: 0px 0px 9px #888888;border-radius: 9px 9px 9px 9px;" id="draggableDiv2">
+        <div class="row clearfix" style="background-color:#006600;color:white;padding:4px;">
+            <div class="col-xs-10" >
+                <span >chat with us ! </span>
+            </div>
+            <div class="col-xs-2" >
+                <span onclick="closeChat();" style="cursor:pointer;"> <i class="fa fa-times pull-right" aria-hidden="true" style="padding-right:5px;padding-top:2px;"></i> </span>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12">
+                <div id="chatMessagesList" class="chatMessagesList">
+                    <div class="talk-bubble-receiving talktext pull-left">
+                        Hi! What's on your mind?
+                    </div>
+                    <div class="talk-bubble-sending talktext pull-right">
+                        I'm trying to learn about this service.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-xs-12">
+                <div id="typeMessageWrapper" >
+                    <div  class="typeMessageClass" style="border-top: 1px solid #F1F1F1;">
+                        <div style="height:70px;">
+                            <textarea id="chatInputTextArea"  name="comment" placeholder="Write a reply ..." class="chatInput"></textarea>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+{% endmacro %}
+
+{% macro draggableChat() %}
+
+    <script>
+
+    $( "#draggableDiv" ).click(function() {
+        $("#draggableDiv" ).fadeOut('fast');
+        $("#draggableDiv2" ).fadeIn('fast')
+    });
+    function closeChat() {
+            $("#draggableDiv2" ).fadeOut('fast');
+            $("#draggableDiv" ).fadeIn('fast')
+    }
+
+    function autoGrow (oField) {
+        if (oField.scrollHeight > oField.clientHeight) {
+            oField.style.height = oField.scrollHeight +"px";
+        } else if (oField.scrollHeight < oField.clientHeight -4 ){
+            oField.style.height = 0+"px";
+            oField.style.height = oField.scrollHeight +"px";
+        }
+
+    }
+    $("#chatInputTextArea").focus(toggleShading);
+
+    $("#chatInputTextArea").focusout(toggleShading);
+
+    function toggleShading() {
+        if ($("#chatMessagesList").css('background-color')=="rgb(241, 241, 241)"){
+
+            $("#chatMessagesList").css('background-color', 'rgb(252, 252, 252)');
+        } else {
+            $("#chatMessagesList").css('background-color', "rgb(241, 241, 241)");
+        }
+
+    }
+
+
+
+
+    </script>
+
+
+{% endmacro %}
